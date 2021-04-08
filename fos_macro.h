@@ -14,10 +14,20 @@
 #define false   (!true)
 #endif
 
+#ifndef TRUE
+#define TRUE    (1==1)
+#define FALSE   (!TRUE)
+#endif
+
 #define STRER(s)     #s
 
 #define CONCAT2(s1, s2)         s1##s2
 #define CONCAT3(s1, s2, s3)     s1##s2##s3
+
+#define BIT(pos)            (1U << (pos))
+#define SETBIT(reg, pos)    (reg |= BIT(pos))
+#define CLEARBIT(reg, pos)  (reg &= ~(BIT(pos)))
+#define READBIT(reg, pos)   (reg & (BIT(pos)))
 
 #define MIN(a, b)       ((a) < (b) ? (a) : (b))
 #define MAX(a, b)       ((a) < (b) ? (b) : (a))

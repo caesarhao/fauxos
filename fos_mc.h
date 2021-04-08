@@ -6,15 +6,55 @@
 #include "fos_macro.h"
 
 #ifdef _MC_SUPPORT_
-void mc_meas_add(void *addr, int size, string namestr);
-void mc_measarr_add(void *addr, int size, int len, string namestr); 
-#define DEF_VAR(type, name)    type name; \
-                                mc_meas_add(&name, sizeof(type), STRER(name))
-#define DEF_ARR(type, name, len)    type name[len]; \
-                                mc_measarr_add(&name[0], sizeof(type), len, STRER(name)) 
+#define MC_NAME_MAXSIZE    (15)
+typedef struct _mc_meas_{
+   s_mc_meas *next; 
+   void *address;
+   int size;
+   char name[MC_NAME_MAXSIZE+1]; 
+} s_mc_meas;
+
+typedef struct _mc_cal_{
+   s_mc_cal *next; 
+   void *address;
+   int size;
+   char name[MC_NAME_MAXSIZE+1];  
+} s_mc_cal;
+
+void mc_meas_add(s_mc_meas *item, string namestr);
+void mc_cal_add(s_mc_cal *item, string namestr); 
+
+#define GET_MEAS(meas)  (meas)
+
+#define DEF_MEAS(type, name, value)     type name = value; \
+                                        s_mc_meas CONCAT2(s_mc_meas_, name) = \
+                                        {NULL, &name, sizeof(type), STRER(name)}
+
+#define INIT_MEAS(name)                 mc_meas_add(&name, STRER(name)) 
+
+#define GET_CAL(x)    (CONCAT2(x, _C))
+
+#define DEF_CAL(type, name, value)    const type name = value; \
+                                       type CONCAT2(x, _C) = value; \
+                                       s_mc_cal CONCAT2(s_mc_cal_, name) = \
+                                       {NULL, &name, sizeof(type), STRER(name)} 
+
+#define INIT_CAL(name)              mc_cal_add(&name, STRER(name))  
+
 #else
-#define DEF_VAR(type, name)    type name;
-#define DEF_ARR(type, name, size)    type name[size]; 
+
+#define GET_MEAS(meas)  (meas)
+
+#define DEF_MEAS(type, name, value)     type name = value
+
+#define INIT_MEAS(name)     
+
+#define GET_CAL(con)    (con)
+
+#define DEF_CAL(type, name, value)    const type name = value
+
+#define INIT_CAL(name)     
+
 #endif
 
 #endif
