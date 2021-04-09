@@ -1,8 +1,6 @@
 #ifndef __FOS_MACRO_H__
 #define __FOS_MACRO_H__
 
-#include "fos_bsp.h"
-
 #define AddrSize    sizeof(addrtype)
 
 #ifndef NULL

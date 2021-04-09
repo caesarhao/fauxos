@@ -3,18 +3,18 @@
 /**
  * Support of Measurement and Calibration
  */
-#include "fos_macro.h"
+#include "fos_common.h"
 
 #ifdef _MC_SUPPORT_
 #define MC_NAME_MAXSIZE    (15)
-typedef struct _mc_meas_{
+typedef struct _s_mc_meas_{
    s_mc_meas *next; 
    void *address;
    int size;
    char name[MC_NAME_MAXSIZE+1]; 
 } s_mc_meas;
 
-typedef struct _mc_cal_{
+typedef struct _s_mc_cal_{
    s_mc_cal *next; 
    void *address;
    int size;
